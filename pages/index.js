@@ -28,7 +28,13 @@ const Index = () => {
               multiline={3}
             ></TextField>
             <ResourcePicker
-            
+              resourceType="Product"
+              showVariants={false}
+              open
+              onSelection={(resources) => {
+                console.log(resources);
+                setProducts(resources);
+              }}
             />
             <Button primary onClick={() => console.log('Clicked')}>Select Products</Button>
           </Stack>

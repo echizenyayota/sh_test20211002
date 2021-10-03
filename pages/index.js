@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Heading, Page, Stack, TextField } from "@shopify/polaris";
+import { Button, Card, DataTable, EmptyState, Heading, Page, Stack, TextField } from "@shopify/polaris";
 import { ResourcePicker } from "@shopify/app-bridge-react";
 
 
@@ -10,6 +10,8 @@ const Index = () => {
   const [products, setProducts] = useState([]);
   const [showToast, setshowToast] = useState(false);
 
+  const productTableDisplayData = products.map(() => null);
+
   return(
     <Page>
       <Heading>Producter Updater App</Heading>
@@ -17,12 +19,12 @@ const Index = () => {
         <Card.Section>
           <Stack vertical>
             <TextField
-              label="Apped to title"
+              label="Append to title"
               value={appendToTitle}
               onChange={setAppendToTitle}
             ></TextField>
             <TextField
-              label="Apped to description"
+              label="Append to description"
               value={appendToDescription}
               onChange={setAppendToDescription}
               multiline={3}
@@ -30,7 +32,7 @@ const Index = () => {
             <ResourcePicker
               resourceType="Product"
               showVariants={false}
-              open
+              open={pickerOpen}
               onSelection={(resources) => {
                 console.log(resources);
                 setProducts(resources);

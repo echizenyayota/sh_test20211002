@@ -10,7 +10,7 @@ const Index = () => {
   const [products, setProducts] = useState([]);
   const [showToast, setshowToast] = useState(false);
 
-  const productTableDisplayData = products.map(() => null);
+  const productTableDisplayData = products.map((product) => productTableDisplayData.id);
 
   return(
     <Page>
@@ -40,6 +40,13 @@ const Index = () => {
             />
             <Button primary onClick={() => console.log('Clicked')}>Select Products</Button>
           </Stack>
+        </Card.Section>
+        <Card.Section>
+          {productTableDisplayData.legth ? <DataTable
+            columnContentTypes={['text','text','text','text','text' ]}
+            headings={['ID', 'Old Title', 'New Title', 'Old Description', 'New Description']}
+            rows={[]}
+          /> : <EmptyState heading="No Product Selected"/>} 
         </Card.Section>
       </Card>
     </Page>

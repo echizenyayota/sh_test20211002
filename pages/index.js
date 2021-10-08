@@ -10,13 +10,16 @@ const Index = () => {
   const [products, setProducts] = useState([]);
   const [showToast, setshowToast] = useState(false);
 
+  // console.log(products);
+
   const productTableDisplayData = useMemo(() => products.map((product) => [
       product.id,
       product.title,
       `${product.title}${appendToTitle}`,
       product.descriptionHtml,
       `${product.descriptionHtml}${appendToDescription}`
-    ]), [products, appendToTitle, appendToDescription]);
+  ]), [products, appendToTitle, appendToDescription]);
+
 
   return(
     <Page>

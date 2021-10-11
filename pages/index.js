@@ -1,7 +1,8 @@
 import { useState, useMemo, useCallback } from "react";
 import { Button, Card, DataTable, EmptyState, Heading, Page, Stack, TextField } from "@shopify/polaris";
 import { ResourcePicker } from "@shopify/app-bridge-react";
-
+import {useMutaion} from 'react-apollo';
+import { ProductUpdateMutation } from "../graphql/ProductUpdate";
 
 
 const Index = () => {
@@ -11,7 +12,7 @@ const Index = () => {
   const [products, setProducts] = useState([]);
   const [showToast, setshowToast] = useState(false);
 
-  // console.log(products);
+  const productPikerHandler = useCallback(() => setPickerOpen(true))
 
   const productTableDisplayData = useMemo(() => products.map((product) => [
       product.id,
@@ -53,7 +54,7 @@ const Index = () => {
             <ResourcePicker
               resourceType="Product"
               showVariants={false}
-              open
+              open={pickerOpen}
               onSelection={(resources) => {
                 console.log(resources);
                 setProducts(resources);

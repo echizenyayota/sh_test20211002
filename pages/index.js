@@ -3,6 +3,7 @@ import { Button, Card, DataTable, EmptyState, Heading, Page, Stack, TextField } 
 import { ResourcePicker } from "@shopify/app-bridge-react";
 
 
+
 const Index = () => {
   const [appendToTitle, setAppendToTitle] = useState('');
   const [appendToDescription, setAppendToDescription] = useState('');

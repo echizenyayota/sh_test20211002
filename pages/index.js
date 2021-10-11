@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
-import { Button, Card, DataTable, EmptyState, Heading, Page, Stack, TextField } from "@shopify/polaris";
+import { Button, Card, DataTable, EmptyState, Heading, Page, Stack, TextField, Frame } from "@shopify/polaris";
 import { ResourcePicker } from "@shopify/app-bridge-react";
-import {useMutaion} from 'react-apollo';
+import { useMutation } from 'react-apollo';
 import { ProductUpdateMutation } from "../graphql/ProductUpdate";
 
 
@@ -14,7 +14,7 @@ const Index = () => {
 
   const [updateProduct] = useMutation(ProductUpdateMutation)
 
-  const productPikerHandler = useCallback(() => setPickerOpen(true))
+  const productPikerHandler = useCallback(() => setPickerOpen(true), []);
 
   const productTableDisplayData = useMemo(() => products.map((product) => [
       product.id,
@@ -35,7 +35,7 @@ const Index = () => {
             id: product.id
           }
         }
-      }), then((data) => {
+      }).then((data) => {
         console.log('Update Product', count, data);
         count++;
         if (products[count]) {
@@ -52,51 +52,53 @@ const Index = () => {
   const toastMarkup = showToast ? 
     <Toast
       content="Update Successful"
-      onDismiss={() => SetShowToast(false)}
+      onDismiss={() => setShowToast(false)}
       duration={4000}
     /> : null
 
   return(
-    <Page>
-      <Heading>Producter Updater App</Heading>
-      <Card>
-        <Card.Section>
-          <Stack vertical>
-            <TextField
-              label="Append to title"
-              value={appendToTitle}
-              onChange={setAppendToTitle}
-            ></TextField>
-            <TextField
-              label="Append to description"
-              value={appendToDescription}
-              onChange={setAppendToDescription}
-              multiline={3}
-            ></TextField>
-            <ResourcePicker
-              resourceType="Product"
-              showVariants={false}
-              open={pickerOpen}
-              onSelection={(resources) => {
-                console.log(resources);
-                setProducts(resources);
-              }}
-            />
-            <Button primary onClick={() => console.log('Clicked')}>Select Products</Button>
-          </Stack>
-        </Card.Section>
-        <Card.Section>
-          {productTableDisplayData.legth ? <DataTable
-            columnContentTypes={['text','text','text','text','text' ]}
-            headings={['ID', 'Old Title', 'New Title', 'Old Description', 'New Description']}
-            rows={[productTableDisplayData]}
-          /> : <EmptyState heading="No Product Selected"/>} 
-        </Card.Section>
-        <Card.Section>
-          <Button primary onClick={submitHandler} disabled={!products.length}>Submmit</Button>
-        </Card.Section>
-      </Card>
-    </Page>
+    <Frame>
+      <Page>
+        <Heading>Producter Updater App</Heading>
+        <Card>
+          <Card.Section>
+            <Stack vertical>
+              <TextField
+                label="Append to title"
+                value={appendToTitle}
+                onChange={setAppendToTitle}
+              />
+              <TextField
+                label="Append to description"
+                value={appendToDescription}
+                onChange={setAppendToDescription}
+                multiline={3}
+              />
+              <ResourcePicker
+                resourceType="Product"
+                showVariants={false}
+                open={pickerOpen}
+                onSelection={(resources) => {
+                  console.log(resources);
+                  setProducts(resources.selection);
+                }}
+              />
+              <Button primary onClick={() => setPickerOpen(true)}>Select Products</Button>
+            </Stack>
+          </Card.Section>
+          <Card.Section>
+            {productTableDisplayData.legth ? <DataTable
+              columnContentTypes={['text','text','text','text','text' ]}
+              headings={['ID', 'Old Title', 'New Title', 'Old Description', 'New Description']}
+              rows={[productTableDisplayData]}
+            /> : <EmptyState heading="No Product Selected"/>} 
+          </Card.Section>
+          <Card.Section>
+            <Button primary onClick={submitHandler} disabled={!products.length}>Submmit</Button>
+          </Card.Section>
+        </Card>
+      </Page>
+    </Frame>
   );
 
 }

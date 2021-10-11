@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Button, Card, DataTable, EmptyState, Heading, Page, Stack, TextField } from "@shopify/polaris";
 import { ResourcePicker } from "@shopify/app-bridge-react";
 
@@ -19,6 +19,10 @@ const Index = () => {
       product.descriptionHtml,
       `${product.descriptionHtml}${appendToDescription}`
   ]), [products, appendToTitle, appendToDescription]);
+
+  const submitHandler = useCallback(() => {
+    console.log('submitting');
+  }, []);
 
 
   return(
@@ -56,6 +60,9 @@ const Index = () => {
             headings={['ID', 'Old Title', 'New Title', 'Old Description', 'New Description']}
             rows={[productTableDisplayData]}
           /> : <EmptyState heading="No Product Selected"/>} 
+        </Card.Section>
+        <Card.Section>
+          <Button primary onClick={submitHandler} disabled={!products.length}>Submmit</Button>
         </Card.Section>
       </Card>
     </Page>

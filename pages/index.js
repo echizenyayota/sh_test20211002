@@ -12,6 +12,8 @@ const Index = () => {
   const [products, setProducts] = useState([]);
   const [showToast, setshowToast] = useState(false);
 
+  const [updateProduct] = useMutation(ProductUpdateMutation)
+
   const productPikerHandler = useCallback(() => setPickerOpen(true))
 
   const productTableDisplayData = useMemo(() => products.map((product) => [
@@ -23,9 +25,29 @@ const Index = () => {
   ]), [products, appendToTitle, appendToDescription]);
 
   const submitHandler = useCallback(() => {
-    console.log('submitting');
-    showToast(true);
-  }, []);
+    let count = 0;
+    const runMutation = (product) => {
+      updateProduct({
+        variables: {
+          input: {
+            descriptionHtml: `${product.descriptionHtml}${appendToDescription}`,
+            title:`${product.title}${appendToTitle}`,
+            id: product.id
+          }
+        }
+      }), then((data) => {
+        console.log('Update Product', count, data);
+        count++;
+        if (products[count]) {
+          runMutation(product[count])
+        } else {
+          console.log('Update Compete');
+          setshowToast(true);
+        }
+      })
+    }
+    runMutation(products[count]);
+  }, [products, appendToTitle, appendToDescription]);
 
   const toastMarkup = showToast ? 
     <Toast

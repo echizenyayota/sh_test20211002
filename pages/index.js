@@ -22,8 +22,15 @@ const Index = () => {
 
   const submitHandler = useCallback(() => {
     console.log('submitting');
+    showToast(true);
   }, []);
 
+  const toastMarkup = showToast ? 
+    <Toast
+      content="Update Successful"
+      onDismiss={() => SetShowToast(false)}
+      duration={4000}
+    /> : null
 
   return(
     <Page>

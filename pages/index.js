@@ -30,7 +30,7 @@ const Index = () => {
       updateProduct({
         variables: {
           input: {
-            descriptionHtml: `${product.descriptionHtml}${appendToDescription}`,
+            descriptionHtml:`${product.descriptionHtml}${appendToDescription}`,
             title:`${product.title}${appendToTitle}`,
             id: product.id
           }
@@ -52,7 +52,7 @@ const Index = () => {
   const toastMarkup = showToast ? 
     <Toast
       content="Update Successful"
-      onDismiss={() => setShowToast(false)}
+      onDismiss={() => setshowToast(false)}
       duration={4000}
     /> : null
 
